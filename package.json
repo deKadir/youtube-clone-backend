@@ -1,0 +1,32 @@
+{
+  "name": "youtube-clone-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start index.js",
+    "dev": "nodemon start index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deKadir/youtube-clone-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deKadir/youtube-clone-backend/issues"
+  },
+  "homepage": "https://github.com/deKadir/youtube-clone-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "http-status": "^1.5.2",
+    "joi": "^17.6.0",
+    "mongoose": "^6.4.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.18"
+  }
+}
