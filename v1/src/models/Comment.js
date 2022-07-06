@@ -14,7 +14,7 @@ const Schema = new mongoose.Schema(
     },
     caption: {
       type: String,
-      required: True,
+      required: true,
     },
     replies: [
       {

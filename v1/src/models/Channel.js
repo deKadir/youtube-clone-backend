@@ -6,8 +6,20 @@ const Schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    image: String,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    image: {
+      type: String,
+      default: 'default.jpg',
+    },
     subscribers: { type: Number, default: 0 },
+    password: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true, versionKey: false }
 );

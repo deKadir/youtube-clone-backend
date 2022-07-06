@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = new mongoose.Schema(
   {
     owner: {
-      type: mongoose.Types.OjbectId,
+      type: mongoose.Types.ObjectId,
       required: true,
       ref: 'Channel',
     },
@@ -13,7 +13,7 @@ const Schema = new mongoose.Schema(
     },
     videos: [
       {
-        type: mongoose.Types.OjbectId,
+        type: mongoose.Types.ObjectId,
       },
     ],
     private: {

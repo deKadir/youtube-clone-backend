@@ -1,11 +1,11 @@
 const responseHandler = (req, res, next) => {
-  res.responseSuccess = (data, status) => {
+  res.success = (data, status) => {
     return res.status(status || 200).json({
       success: true,
       ...generatePayload(data),
     });
   };
-  res.responseError = (message, status) => {
+  res.error = (message, status) => {
     return res.status(status || 500).json({
       success: false,
       message,
@@ -21,7 +21,7 @@ const generatePayload = (data) => {
     };
   }
   if (typeof data === 'object') {
-    return { data };
+    return data;
   }
 };
 
