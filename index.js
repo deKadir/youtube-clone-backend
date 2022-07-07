@@ -18,7 +18,7 @@ app.use(responseHandler);
 app.use('/api/v1', routes);
 
 app.use((req, res, next) => {
-  res.responseError('Invalid request!', httpStatus.BAD_REQUEST);
+  res.error('Invalid request!', httpStatus.BAD_REQUEST);
 });
 
 app.use(errorHandler);

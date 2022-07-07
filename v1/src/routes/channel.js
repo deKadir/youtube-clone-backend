@@ -5,8 +5,16 @@ import {
   getProfile,
   getChannel,
   updateChannel,
+  subscribe,
+  getSubscriptions,
+  notificationSettings,
 } from '../controllers/channel.js';
-import { getSchema, updateSchema } from '../schemas/Channel.js';
+import {
+  getSchema,
+  notificationSchema,
+  subscribeSchema,
+  updateSchema,
+} from '../schemas/Channel.js';
 import upload from '../middlewares/upload.js';
 const router = express.Router();
 
@@ -24,5 +32,12 @@ router.patch(
   updateChannel
 );
 router.get('/profile', authenticate, getProfile);
-
+router.post('/subscribe', validate(subscribeSchema), authenticate, subscribe);
+router.post(
+  '/notifications',
+  validate(notificationSchema),
+  authenticate,
+  notificationSettings
+);
+router.get('/subscriptions', authenticate, getSubscriptions);
 export default router;
