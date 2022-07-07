@@ -1,6 +1,12 @@
 import Joi from 'joi';
 
-const confirmSchema = {
+const BaseSchema = {
+  name: Joi.string().min(4),
+  email: Joi.string().email(),
+  image: Joi.string(),
+};
+
+const ConfirmSchema = {
   password: Joi.string().min(5).required(),
   passwordConfirm: Joi.string()
     .equal(Joi.ref('password'))
@@ -11,12 +17,10 @@ const confirmSchema = {
 const createSchema = Joi.object({
   query: {},
   body: {
-    name: Joi.string().min(4).required(),
-    email: Joi.string().email().required(),
-    image: Joi.string().email(),
-    ...confirmSchema,
+    ...BaseSchema,
+    ...ConfirmSchema,
   },
-});
+}).required();
 const loginSchema = Joi.object({
   query: {},
   body: {
@@ -36,8 +40,27 @@ const resetSchema = Joi.object({
   }),
 
   body: Joi.object({
-    ...confirmSchema,
+    ...ConfirmSchema,
   }),
 });
 
-export { createSchema, loginSchema, forgotPasswordSchema, resetSchema };
+const getSchema = Joi.object({
+  query: {
+    id: Joi.string().required().min(5),
+  },
+  body: {},
+});
+const updateSchema = Joi.object({
+  query: {},
+  body: {
+    ...BaseSchema,
+  },
+});
+export {
+  createSchema,
+  loginSchema,
+  forgotPasswordSchema,
+  resetSchema,
+  getSchema,
+  updateSchema,
+};
