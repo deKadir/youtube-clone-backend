@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/', validate(getSchema), getChannel);
 
 const uploadConfig = {
-  folder: 'profile',
+  folder: 'profiles',
   fileType: 'image',
 };
 router.patch(

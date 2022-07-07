@@ -16,10 +16,6 @@ const Schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    length: {
-      type: Number,
-      required: true,
-    },
     viewerCount: {
       type: Number,
       default: 0,

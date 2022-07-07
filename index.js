@@ -13,7 +13,7 @@ const app = express();
 loaders();
 
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 app.use(responseHandler);
 app.use('/api/v1', routes);
 

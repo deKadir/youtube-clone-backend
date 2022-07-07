@@ -7,8 +7,10 @@ const upload = ({ folder, fileType }) =>
       destination: `v1/src/uploads/${folder}`,
       filename: function (req, file, callback) {
         const [type, extension] = file.mimetype.split('/');
-        if (fileType !== type) return callback(new Error('Invalid file type'));
+        if (fileType && fileType !== type)
+          return callback(new Error('Invalid file type'));
         file.filename = `${uuid.v4()}.${extension}`;
+
         callback(null, file.filename);
       },
     }),

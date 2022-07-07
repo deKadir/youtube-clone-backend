@@ -6,7 +6,7 @@ const getChannel = async (req, res, next) => {
     const channel = await channelService
       .findById(id)
       .select('name profile subscribers image');
-    if (!channel) return res.error('Channel not found!');
+    if (!channel) return res.error('Channel not found!', 404);
     return res.success({ channel });
   } catch (error) {
     next(error);
@@ -16,7 +16,6 @@ const getProfile = async (req, res, next) => {
   const { id } = req.user;
   try {
     const channel = await channelService.findById(id);
-    if (!channel) return res.error('Channel not found!');
     return res.success({ channel });
   } catch (error) {
     next(error);
@@ -31,7 +30,7 @@ const updateChannel = async (req, res, next) => {
   }
   try {
     const channel = await channelService.findByIdAndUpdate(id, req.body);
-    if (!channel) return res.error('Channel not found!');
+    if (!channel) return res.error('Channel not found!', 404);
     return res.success({ channel });
   } catch (error) {
     next(error);
