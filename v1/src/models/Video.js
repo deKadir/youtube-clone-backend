@@ -39,12 +39,6 @@ const Schema = new mongoose.Schema(
       enum: ['Enabled', 'Disabled', 'Restrict'],
       default: 'Enabled',
     },
-    comments: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: 'Comment',
-      },
-    ],
     private: {
       type: Boolean,
       default: false,

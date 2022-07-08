@@ -40,10 +40,10 @@ router.delete(
   authenticate,
   videoController.deleteVideo
 );
-router.post(
-  '/watch',
-  validate(getSchema),
-  authenticate,
-  videoController.watchVideo
-);
+// router.post(
+//   '/watch',
+//   validate(getSchema),
+//   authenticate,
+//   videoController.watchVideo
+// );
 export default router;

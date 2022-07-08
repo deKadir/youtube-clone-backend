@@ -115,23 +115,23 @@ const getComments = async (req, res, next) => {
   }
 };
 
-//watch history
-const watchVideo = async (req, res, next) => {
-  try {
-    const query = {
-      owner: req.user.id,
-      video: req.query.id,
-    };
-    const watched = await watchSchema.find(query);
-    if (!watched) {
-      const watch = await watchSchema.create(query);
-      if (!watch) return res.error('Not found', httpStatus.NOT_FOUND);
-      return res.success({ watch });
-    }
-  } catch (error) {
-    next(error);
-  }
-};
+// //watch history
+// const watchVideo = async (req, res, next) => {
+//   try {
+//     const query = {
+//       owner: req.user.id,
+//       video: req.query.id,
+//     };
+//     const watched = await watchSchema.find(query);
+//     if (!watched) {
+//       const watch = await watchSchema.create(query);
+//       if (!watch) return res.error('Not found', httpStatus.NOT_FOUND);
+//       return res.success({ watch });
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 export {
   getVideo,
@@ -141,5 +141,5 @@ export {
   getMyVideos,
   deleteVideo,
   getComments,
-  watchVideo,
+  // watchVideo,
 };
