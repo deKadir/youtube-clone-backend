@@ -1,5 +1,7 @@
 import httpStatus from 'http-status';
 import * as videoService from '../services/videoService.js';
+import * as commentService from '../services/commentService.js';
+import * as watchSchema from '../services/watchService.js';
 import { createSchema } from '../schemas/Video.js';
 
 const getVideo = async (req, res, next) => {
@@ -10,7 +12,13 @@ const getVideo = async (req, res, next) => {
   };
   try {
     const video = await videoService.find(query);
+
     if (video === null) return res.error('Video not found', 404);
+    //increase viewer count
+    await videoService.findAndUpdate(video, {
+      viewerCount: video.viewerCount + 1,
+    });
+
     return res.success({ video });
   } catch (error) {
     next(error);
@@ -97,6 +105,34 @@ const deleteVideo = async (req, res, next) => {
   }
 };
 
+const getComments = async (req, res, next) => {
+  const { videoId } = req.query;
+  try {
+    const comments = commentService.findAll({ video: videoId });
+    return res.success({ comments });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//watch history
+const watchVideo = async (req, res, next) => {
+  try {
+    const query = {
+      owner: req.user.id,
+      video: req.query.id,
+    };
+    const watched = await watchSchema.find(query);
+    if (!watched) {
+      const watch = await watchSchema.create(query);
+      if (!watch) return res.error('Not found', httpStatus.NOT_FOUND);
+      return res.success({ watch });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   getVideo,
   uploadVideo,
@@ -104,4 +140,6 @@ export {
   getVideos,
   getMyVideos,
   deleteVideo,
+  getComments,
+  watchVideo,
 };

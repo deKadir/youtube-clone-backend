@@ -3,8 +3,8 @@ import express from 'express';
 import * as videoController from '../controllers/video.js';
 import authenticate from './../middlewares/authenticate.js';
 import validate from '../middlewares/validate.js';
+
 import {
-  createSchema,
   deleteSchema,
   editSchema,
   getAllSchema,
@@ -39,5 +39,11 @@ router.delete(
   validate(deleteSchema),
   authenticate,
   videoController.deleteVideo
+);
+router.post(
+  '/watch',
+  validate(getSchema),
+  authenticate,
+  videoController.watchVideo
 );
 export default router;

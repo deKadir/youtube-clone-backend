@@ -7,11 +7,9 @@ import {
   updateChannel,
   subscribe,
   getSubscriptions,
-  notificationSettings,
 } from '../controllers/channel.js';
 import {
   getSchema,
-  notificationSchema,
   subscribeSchema,
   updateSchema,
 } from '../schemas/Channel.js';
@@ -33,11 +31,6 @@ router.patch(
 );
 router.get('/profile', authenticate, getProfile);
 router.post('/subscribe', validate(subscribeSchema), authenticate, subscribe);
-router.post(
-  '/notifications',
-  validate(notificationSchema),
-  authenticate,
-  notificationSettings
-);
+
 router.get('/subscriptions', authenticate, getSubscriptions);
 export default router;

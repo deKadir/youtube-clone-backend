@@ -59,16 +59,12 @@ const updateSchema = Joi.object({
 const subscribeSchema = Joi.object({
   query: {
     to: Joi.string().required(),
+    action: Joi.string(),
+    notifications: Joi.boolean(),
   },
   body: {},
 });
-const notificationSchema = Joi.object({
-  query: {
-    to: Joi.string().required(),
-    notifications: Joi.boolean().required(),
-  },
-  body: {},
-});
+
 export {
   createSchema,
   loginSchema,
@@ -77,5 +73,4 @@ export {
   getSchema,
   updateSchema,
   subscribeSchema,
-  notificationSchema,
 };

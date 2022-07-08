@@ -16,11 +16,7 @@ const Schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    replies: [
-      {
-        type: mongoose.Types.ObjectId,
-      },
-    ],
+
     status: {
       type: String,
       enum: ['Approved', 'Pending', 'Declined'],

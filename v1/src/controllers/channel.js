@@ -42,6 +42,15 @@ const subscribe = async (req, res, next) => {
     from: req.user.id,
   };
   try {
+    //change notification settings
+    if (query.action === 'notification') {
+      const subscription = await subscribeService.findAndUpdate(
+        { from: query.from, to: query.to },
+        { notifications: req.query.notifications }
+      );
+      if (!subscription) return res.error('Not found');
+      return res.success({ subscription });
+    }
     //unsubscribe
     {
       const result = await subscribeService.findAndDelete(query).populate('to');
@@ -73,20 +82,6 @@ const subscribe = async (req, res, next) => {
   }
 };
 
-const notificationSettings = async (req, res, next) => {
-  const { to, notifications } = req.query;
-  const from = req.user.id;
-  try {
-    const subscription = await subscribeService.findAndUpdate(
-      { from, to },
-      { notifications }
-    );
-    if (!subscription) return res.error('Not found');
-    return res.success({ subscription });
-  } catch (error) {
-    next(error);
-  }
-};
 const getSubscriptions = async (req, res, next) => {
   try {
     const subscriptions = await subscribeService
@@ -97,11 +92,4 @@ const getSubscriptions = async (req, res, next) => {
     next(error);
   }
 };
-export {
-  getChannel,
-  getProfile,
-  updateChannel,
-  getSubscriptions,
-  subscribe,
-  notificationSettings,
-};
+export { getChannel, getProfile, updateChannel, getSubscriptions, subscribe };
