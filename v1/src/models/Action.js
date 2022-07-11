@@ -20,7 +20,6 @@ const Schema = new mongoose.Schema(
     to: {
       type: mongoose.Types.ObjectId,
       required: true,
-      ref: 'model',
     },
   },
   { timestamps: true, versionKey: false }
