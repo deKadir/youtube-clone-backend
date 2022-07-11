@@ -14,6 +14,7 @@ const Schema = new mongoose.Schema(
     videos: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Video',
       },
     ],
     private: {
