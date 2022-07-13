@@ -1,5 +1,5 @@
 import Joi from 'joi';
-
+import { paginateQuery } from './Paginate.js';
 const createSchema = Joi.object({
   query: {},
   body: {
@@ -16,6 +16,7 @@ const getSchema = Joi.object({
 const listSchema = Joi.object({
   query: {
     channel: Joi.string().required(),
+    ...paginateQuery,
   },
   body: {},
 });

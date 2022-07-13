@@ -13,7 +13,7 @@ const reducer = (model, type, ACTION) => {
       model.dislikeCount -= 1;
     }
   }
-  if (ACTION === 'CHANGE') {
+  if (ACTION === 'EXCHANGE') {
     if (type === 'Like') {
       model.likeCount += 1;
       model.dislikeCount -= 1;

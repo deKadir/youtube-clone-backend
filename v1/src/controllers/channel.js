@@ -1,5 +1,6 @@
 import * as channelService from '../services/channelService.js';
 import * as subscribeService from '../services/subscribeService.js';
+import paginate from '../scripts/helpers/paginate.js';
 const getChannel = async (req, res, next) => {
   const { id } = req.query;
   try {
@@ -84,10 +85,13 @@ const subscribe = async (req, res, next) => {
 
 const getSubscriptions = async (req, res, next) => {
   try {
-    const subscriptions = await subscribeService
-      .findAll({ from: req.user.id })
-      .populate({ path: 'to', select: 'name image subscribers' });
-    return res.success({ subscriptions });
+    const data = await paginate(
+      req,
+      subscribeService
+        .findAll({ from: req.user.id })
+        .populate({ path: 'to', select: 'name image subscribers' })
+    );
+    return res.success({ data });
   } catch (error) {
     next(error);
   }

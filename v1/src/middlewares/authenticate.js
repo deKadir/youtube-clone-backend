@@ -11,4 +11,15 @@ const authenticate = (req, res, next) => {
     next(error);
   }
 };
+export const authCheck = async (req, res, next) => {
+  try {
+    const token = req.headers?.authorization?.split(' ')[1];
+
+    const user = decodeJwt(token);
+    req.user = user.channel;
+    next();
+  } catch (error) {
+    next();
+  }
+};
 export default authenticate;

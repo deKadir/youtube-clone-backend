@@ -1,5 +1,5 @@
 import * as actionService from '../services/actionService.js';
-import likeReducer from '../scripts/helpers/model/likeReducer.js';
+import likeReducer from '../scripts/helpers/reducers/likeReducer.js';
 const action = async (req, res, next) => {
   const { to, model, type } = req.query;
   req.query.owner = req.user.id;
@@ -19,7 +19,7 @@ const action = async (req, res, next) => {
         foundModel = likeReducer(foundModel, type, 'DECREASE');
       } else {
         existing.type = type;
-        foundModel = likeReducer(foundModel, type, 'CHANGE');
+        foundModel = likeReducer(foundModel, type, 'EXCHANGE');
 
         await existing.save();
       }

@@ -2,6 +2,8 @@ import * as commentService from '../services/commentService.js';
 import * as replyService from '../services/replyService.js';
 import * as videoService from '../services/videoService.js';
 import httpStatus from 'http-status';
+import paginate from '../scripts/helpers/paginate.js';
+
 const addComment = async (req, res, next) => {
   req.body.owner = req.user.id;
 
@@ -53,8 +55,11 @@ const deleteComment = async (req, res, next) => {
 
 const getReplies = async (req, res, next) => {
   try {
-    const replies = await replyService.findAll({ comment: req.query.id });
-    return res.success({ replies });
+    const data = await paginate(
+      req,
+      replyService.findAll({ comment: req.query.id })
+    );
+    return res.success({ data });
   } catch (error) {
     next(error);
   }

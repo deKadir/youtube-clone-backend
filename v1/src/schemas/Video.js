@@ -1,13 +1,21 @@
 import Joi from 'joi';
+import { paginateQuery } from './Paginate.js';
 
 const BaseSchema = {
-  title: Joi.string().required(),
-  caption: Joi.string().required(),
+  title: Joi.string().required().max(50),
+  caption: Joi.string().required().max(500),
   tags: Joi.array().max(5),
   category: Joi.string().required(),
   commentSettings: Joi.string().valid('Enabled', 'Disabled', 'Restrict'),
   private: Joi.boolean(),
 };
+const getCommentsSchema = Joi.object({
+  query: {
+    id: Joi.string().required(),
+    ...paginateQuery,
+  },
+  body: {},
+});
 const getSchema = Joi.object({
   query: {
     id: Joi.string().required(),
@@ -17,6 +25,7 @@ const getSchema = Joi.object({
 const getAllSchema = Joi.object({
   query: {
     channel: Joi.string().required(),
+    ...paginateQuery,
   },
   body: {},
 });
@@ -44,4 +53,11 @@ const deleteSchema = Joi.object({
   },
   body: {},
 });
-export { createSchema, getSchema, editSchema, deleteSchema, getAllSchema };
+export {
+  createSchema,
+  getCommentsSchema,
+  editSchema,
+  deleteSchema,
+  getAllSchema,
+  getSchema,
+};

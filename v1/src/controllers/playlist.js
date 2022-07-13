@@ -1,5 +1,6 @@
 import * as playlistService from '../services/playlistService.js';
 import httpStatus from 'http-status';
+import paginate from '../scripts/helpers/paginate.js';
 const createPlaylist = async (req, res, next) => {
   req.body.owner = req.user.id;
   try {
@@ -26,9 +27,8 @@ const listPlaylists = async (req, res, next) => {
   };
   if (query.owner !== req.user?.id) query.private = false;
   try {
-    const playlists = await playlistService.findAll(query);
-    if (!playlists) return res.error('Not found', 404);
-    return res.success({ playlists });
+    const data = await paginate(req, playlistService.findAll(query));
+    return res.success({ data });
   } catch (error) {
     next(error);
   }

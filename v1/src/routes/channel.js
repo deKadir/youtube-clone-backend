@@ -14,6 +14,7 @@ import {
   updateSchema,
 } from '../schemas/Channel.js';
 import upload from '../middlewares/upload.js';
+import paginateSchema from './../schemas/Paginate.js';
 const router = express.Router();
 
 router.get('/', validate(getSchema), getChannel);
@@ -32,5 +33,10 @@ router.patch(
 router.get('/profile', authenticate, getProfile);
 router.post('/subscribe', validate(subscribeSchema), authenticate, subscribe);
 
-router.get('/subscriptions', authenticate, getSubscriptions);
+router.get(
+  '/subscriptions',
+  validate(paginateSchema),
+  authenticate,
+  getSubscriptions
+);
 export default router;

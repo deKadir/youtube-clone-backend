@@ -1,5 +1,5 @@
 import Joi from 'joi';
-
+import { paginateQuery } from './Paginate.js';
 const createSchema = Joi.object({
   query: {},
   body: {
@@ -21,4 +21,11 @@ const deleteSchema = Joi.object({
   },
   body: {},
 });
-export { createSchema, editSchema, deleteSchema };
+const repliesSchema = Joi.object({
+  query: {
+    id: Joi.string().required(),
+    ...paginateQuery,
+  },
+  body: {},
+});
+export { createSchema, editSchema, deleteSchema, repliesSchema };

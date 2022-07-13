@@ -51,6 +51,11 @@ const Schema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    keywords: [
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true, versionKey: false }
 );
