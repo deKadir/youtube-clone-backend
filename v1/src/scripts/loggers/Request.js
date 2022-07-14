@@ -20,7 +20,6 @@ const logger = winston.createLogger({
       },
       { timestamp: true }
     ),
-    new winston.transports.Console(),
   ],
 });
 export default logger;

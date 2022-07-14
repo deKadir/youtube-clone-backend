@@ -83,21 +83,7 @@ const editVideo = async (req, res, next) => {
     next(error);
   }
 };
-const getVideos = async (req, res, next) => {
-  try {
-    const data = await paginate(
-      req,
-      videoService.findAll({
-        owner: req.query.channel,
-        private: false,
-      })
-    );
 
-    return res.success({ data });
-  } catch (error) {
-    next(error);
-  }
-};
 const getMyVideos = async (req, res, next) => {
   try {
     const data = await paginate(
@@ -155,16 +141,39 @@ const search = async (req, res, next) => {
   }
 };
 
+const listBy = async (req, res, next) => {
+  const { by } = req.query;
+  const query = {
+    private: false,
+  };
+  if (by === 'tag') {
+    query.tags = { $in: req.query.tag };
+  }
+  if (by === 'category') {
+    query.category = req.query.category;
+  }
+  if (by === 'channel') {
+    query.owner = req.query.channel;
+  }
+  try {
+    const videos = await paginate(req, videoService.findAll(query));
+    return res.success({ videos });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const recommend = async (req, res, next) => {};
+
 export {
   getVideo,
   uploadVideo,
   editVideo,
-  getVideos,
   getMyVideos,
   deleteVideo,
   getComments,
   // watchVideo,
   search,
   recommend,
+  listBy,
 };

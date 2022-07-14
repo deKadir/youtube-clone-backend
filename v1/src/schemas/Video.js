@@ -60,6 +60,16 @@ const searchSchema = Joi.object({
   },
   body: {},
 });
+const listSchema = Joi.object({
+  query: {
+    by: Joi.string().required(),
+    tag: Joi.string(),
+    category: Joi.string(),
+    channel: Joi.string(),
+    ...paginateQuery,
+  },
+  body: {},
+});
 export {
   createSchema,
   getCommentsSchema,
@@ -68,4 +78,5 @@ export {
   getAllSchema,
   getSchema,
   searchSchema,
+  listSchema,
 };

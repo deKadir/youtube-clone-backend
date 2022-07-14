@@ -7,9 +7,9 @@ import validate from '../middlewares/validate.js';
 import {
   deleteSchema,
   editSchema,
-  getAllSchema,
   getCommentsSchema,
   getSchema,
+  listSchema,
   searchSchema,
 } from '../schemas/Video.js';
 import upload from './../middlewares/upload.js';
@@ -35,7 +35,7 @@ router.patch(
   authenticate,
   videoController.editVideo
 );
-router.get('/all', validate(getAllSchema), videoController.getVideos);
+router.get('/listBy', validate(listSchema), videoController.listBy);
 router.get(
   '/myVideos',
   validate(paginateSchema),

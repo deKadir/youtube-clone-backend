@@ -1,4 +1,4 @@
-import logger from '../scripts/helpers/logger/Error.js';
+import logger from '../scripts/loggers/Error.js';
 const handler = (error, req, res, next) => {
   if (error.code === 11000) {
     const fields = Object.keys(error.keyPattern).join(',');
