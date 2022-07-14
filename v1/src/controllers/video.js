@@ -1,6 +1,7 @@
 import httpStatus from 'http-status';
 import * as videoService from '../services/videoService.js';
 import * as commentService from '../services/commentService.js';
+import * as watchService from '../services/watchService.js';
 import * as actionService from '../services/actionService.js';
 import { createSchema } from '../schemas/Video.js';
 import paginate from '../scripts/helpers/paginate.js';
@@ -14,22 +15,30 @@ const getVideo = async (req, res, next) => {
   };
   try {
     const video = await videoService.find(query);
-
     if (video === null) return res.error('Video not found', 404);
     //increase viewer count
-    await videoService.findAndUpdate(video, {
-      viewerCount: video.viewerCount + 1,
-    });
-    // get video action if user authenticated
+    video.viewerCount += 1;
+
+    // if user authenticated
     if (req.user) {
+      const q = {
+        owner: req.user.id,
+        video: id,
+      };
+      const watch = await watchService.find(q);
+      if (!watch) {
+        await watchService.create(q);
+      }
+
       const action = await actionService
         .find({
           owner: req.user.id,
           to: id,
         })
         .select('type');
-      Object.assign(video._doc, { action: action._doc });
+      Object.assign(video._doc, { action: action?._doc });
     }
+    await video.save();
     return res.success({ video: video._doc });
   } catch (error) {
     next(error);
@@ -163,7 +172,15 @@ const listBy = async (req, res, next) => {
   }
 };
 
-const recommend = async (req, res, next) => {};
+const recommend = async (req, res, next) => {
+  try {
+    //temporary logic
+    const data = await paginate(req, videoService.findAll({ private: false }));
+    return res.success({ data });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export {
   getVideo,
@@ -172,7 +189,6 @@ export {
   getMyVideos,
   deleteVideo,
   getComments,
-  // watchVideo,
   search,
   recommend,
   listBy,

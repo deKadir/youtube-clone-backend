@@ -18,6 +18,7 @@ import paginateSchema from './../schemas/Paginate.js';
 const router = express.Router();
 
 router.get('/', validate(getSchema), authCheck, videoController.getVideo);
+router.get('/recommend', validate(paginateSchema), videoController.recommend);
 router.post(
   '/upload',
   upload({
