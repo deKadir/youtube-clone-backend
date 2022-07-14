@@ -53,6 +53,13 @@ const deleteSchema = Joi.object({
   },
   body: {},
 });
+const searchSchema = Joi.object({
+  query: {
+    search: Joi.string().required(),
+    ...paginateQuery,
+  },
+  body: {},
+});
 export {
   createSchema,
   getCommentsSchema,
@@ -60,4 +67,5 @@ export {
   deleteSchema,
   getAllSchema,
   getSchema,
+  searchSchema,
 };

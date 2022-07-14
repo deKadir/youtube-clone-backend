@@ -10,6 +10,7 @@ import {
   getAllSchema,
   getCommentsSchema,
   getSchema,
+  searchSchema,
 } from '../schemas/Video.js';
 import upload from './../middlewares/upload.js';
 import paginateSchema from './../schemas/Paginate.js';
@@ -53,6 +54,7 @@ router.delete(
   authenticate,
   videoController.deleteVideo
 );
+router.get('/v', validate(searchSchema), videoController.search);
 // router.post(
 //   '/watch',
 //   validate(getSchema),

@@ -4,6 +4,7 @@ import * as commentService from '../services/commentService.js';
 import * as actionService from '../services/actionService.js';
 import { createSchema } from '../schemas/Video.js';
 import paginate from '../scripts/helpers/paginate.js';
+import { splitKeywords } from '../scripts/helpers/str.js';
 
 const getVideo = async (req, res, next) => {
   const { id } = req.query;
@@ -59,6 +60,8 @@ const uploadVideo = async (req, res, next) => {
         return res.error(errors, httpStatus.BAD_REQUEST);
       }
     }
+
+    req.body.keywords = splitKeywords(req.body.title, req.body.caption);
 
     //upload
     const video = await videoService.create(req.body);
@@ -134,6 +137,25 @@ const getComments = async (req, res, next) => {
   }
 };
 
+const search = async (req, res, next) => {
+  const { search } = req.query;
+  const keys = splitKeywords(search);
+  try {
+    const data = await paginate(
+      req,
+      videoService
+        .findAll({
+          keywords: { $in: keys },
+        })
+        .sort({
+          viewerCount: 'descending',
+        })
+    );
+    return res.success({ data });
+  } catch (error) {
+    next(error);
+  }
+};
 export {
   getVideo,
   uploadVideo,
@@ -143,4 +165,5 @@ export {
   deleteVideo,
   getComments,
   // watchVideo,
+  search,
 };
