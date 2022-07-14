@@ -141,21 +141,21 @@ const search = async (req, res, next) => {
   const { search } = req.query;
   const keys = splitKeywords(search);
   try {
-    const data = await paginate(
-      req,
-      videoService
-        .findAll({
-          keywords: { $in: keys },
-        })
-        .sort({
-          viewerCount: 'descending',
-        })
-    );
+    const query = videoService
+      .findAll({
+        keywords: { $in: keys },
+      })
+      .sort({
+        viewerCount: 'descending',
+      });
+    const data = await paginate(req, query);
     return res.success({ data });
   } catch (error) {
     next(error);
   }
 };
+
+const recommend = async (req, res, next) => {};
 export {
   getVideo,
   uploadVideo,
@@ -166,4 +166,5 @@ export {
   getComments,
   // watchVideo,
   search,
+  recommend,
 };
