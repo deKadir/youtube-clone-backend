@@ -17,11 +17,6 @@ const Schema = new mongoose.Schema(
       required: true,
     },
 
-    status: {
-      type: String,
-      enum: ['Approved', 'Pending', 'Declined'],
-      default: 'Approved',
-    },
     likeCount: {
       type: Number,
       default: 0,

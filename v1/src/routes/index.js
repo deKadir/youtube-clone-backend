@@ -1,4 +1,6 @@
 import express from 'express';
+import path from 'path';
+
 import auth from './auth.js';
 import channel from './channel.js';
 import video from './video.js';
@@ -15,4 +17,9 @@ router.use('/comment', comment);
 router.use('/reply', reply);
 router.use('/playlist', playlist);
 router.use('/action', action);
+router.use(
+  '/uploads',
+  express.static(path.join(path.resolve(), '/v1/src/uploads'))
+);
+
 export default router;
