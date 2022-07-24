@@ -2,14 +2,13 @@ import nodemailer from 'nodemailer';
 import { generateJwt } from './jwt.js';
 
 const getTransporter = async () => {
-  let testAccount = await nodemailer.createTestAccount();
   let transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    host: 'smtp.gmail.com',
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass, // generated ethereal password
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
     },
   });
   return transporter;
@@ -20,7 +19,7 @@ const sendResetMail = async (email) => {
 
   const transporter = await getTransporter();
   const info = await transporter.sendMail({
-    from: 'Youtube-clone',
+    from: process.env.SMTP_USER,
     to: email,
     subject: 'Reset password',
     text: 'Here is your reset link',

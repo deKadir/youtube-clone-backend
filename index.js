@@ -1,6 +1,7 @@
 import express from 'express';
 import 'dotenv/config';
 import httpStatus from 'http-status';
+import cors from 'cors';
 
 //local imports
 import loaders from './v1/src/scripts/loaders/index.js';
@@ -14,6 +15,7 @@ const app = express();
 loaders();
 
 app.use(express.json());
+app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(responseHandler);
 app.use(log);

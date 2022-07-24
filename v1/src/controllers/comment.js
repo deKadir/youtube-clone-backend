@@ -57,7 +57,9 @@ const getReplies = async (req, res, next) => {
   try {
     const data = await paginate(
       req,
-      replyService.findAll({ comment: req.query.id })
+      replyService
+        .findAll({ comment: req.query.id })
+        .populate('owner', 'name image')
     );
     return res.success({ data });
   } catch (error) {

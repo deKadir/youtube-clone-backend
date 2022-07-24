@@ -1,5 +1,5 @@
 import express from 'express';
-import authenticate from './../middlewares/authenticate.js';
+import authenticate, { authCheck } from './../middlewares/authenticate.js';
 import validate from './../middlewares/validate.js';
 import {
   getProfile,
@@ -17,7 +17,7 @@ import upload from '../middlewares/upload.js';
 import paginateSchema from './../schemas/Paginate.js';
 const router = express.Router();
 
-router.get('/', validate(getSchema), getChannel);
+router.get('/', validate(getSchema), authCheck, getChannel);
 
 const uploadConfig = {
   folder: 'profiles',

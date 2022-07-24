@@ -14,7 +14,9 @@ const getVideo = async (req, res, next) => {
     private: false,
   };
   try {
-    const video = await videoService.find(query);
+    const video = await videoService
+      .find(query)
+      .populate('owner', 'name image subscribers');
     if (video === null) return res.error('Video not found', 404);
     //increase viewer count
     video.viewerCount += 1;
@@ -124,7 +126,10 @@ const deleteVideo = async (req, res, next) => {
 const getComments = async (req, res, next) => {
   const { id } = req.query;
   try {
-    const data = await paginate(req, commentService.findAll({ video: id }));
+    const data = await paginate(
+      req,
+      commentService.findAll({ video: id }).populate('owner', 'name image')
+    );
 
     return res.success({ data });
   } catch (error) {
@@ -165,7 +170,10 @@ const listBy = async (req, res, next) => {
     query.owner = req.query.channel;
   }
   try {
-    const videos = await paginate(req, videoService.findAll(query));
+    const videos = await paginate(
+      req,
+      videoService.findAll(query).populate('owner', 'name image')
+    );
     return res.success({ videos });
   } catch (error) {
     next(error);
@@ -175,7 +183,10 @@ const listBy = async (req, res, next) => {
 const recommend = async (req, res, next) => {
   try {
     //temporary logic
-    const data = await paginate(req, videoService.findAll({ private: false }));
+    const data = await paginate(
+      req,
+      videoService.findAll({ private: false }).populate('owner', 'name image')
+    );
     return res.success({ data });
   } catch (error) {
     next(error);
