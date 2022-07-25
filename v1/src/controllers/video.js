@@ -50,11 +50,19 @@ const uploadVideo = async (req, res, next) => {
   try {
     //video validation
     {
-      const { thumbnail, video } = req.files;
+      const { thumbnail, video } = req?.files;
+      if (!video || !thumbnail)
+        return res.error('Video or thumbnail not provided');
+      if (thumbnail[0].mimetype.split('/')[0] !== 'image') {
+        return res.error('Invalid thumbnail file');
+      }
+      if (video[0].mimetype.split('/')[0] !== 'video') {
+        return res.error('Invalid video file');
+      }
       req.body.owner = req.user.id;
       req.body.file = video && video[0]?.filename;
       req.body.thumbnail = thumbnail && thumbnail[0]?.filename;
-      req.body.tags = JSON.parse(req.body.tags);
+      req.body.tags = req?.body?.tags ? JSON.parse(req?.body?.tags) : [];
 
       const { error } = createSchema.validate(
         {
