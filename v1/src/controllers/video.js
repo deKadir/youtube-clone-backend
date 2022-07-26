@@ -146,17 +146,23 @@ const getComments = async (req, res, next) => {
 };
 
 const search = async (req, res, next) => {
-  const { search } = req.query;
+  const {
+    search,
+    listBy = 'viewerCount',
+    order = 'descending',
+    date = 0,
+  } = req.query;
   const keys = splitKeywords(search);
+  const sort = { [listBy]: order };
   try {
-    const query = videoService
+    const service = videoService
       .findAll({
         keywords: { $in: keys },
+        $gte: new Date(date),
       })
-      .sort({
-        viewerCount: 'descending',
-      });
-    const data = await paginate(req, query);
+      .sort(sort)
+      .populate('owner', 'image name');
+    const data = await paginate(req, service);
     return res.success({ data });
   } catch (error) {
     next(error);

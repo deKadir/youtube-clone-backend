@@ -56,6 +56,9 @@ const deleteSchema = Joi.object({
 const searchSchema = Joi.object({
   query: {
     search: Joi.string().required(),
+    listBy: Joi.string(),
+    order: Joi.string(),
+    date: Joi.number(),
     ...paginateQuery,
   },
   body: {},
